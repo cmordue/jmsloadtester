@@ -20,6 +20,16 @@ or clone the repository and build from scratch with maven
     cd target/dist/jmsloadtester_xxx <----- here you will find the package application
     chmod a+x jmsloadtester.sh
 
+# Getting set up for Development in your favorite IDE
+
+    mvn eclipse:eclipse -DskipTests
+
+When you want to run the application from the IDS, there are some problems with resources and the classpath so you have to copy the config files and remove the test files from the build path
+
+    cp -r src/main/assembly/conf .
+
+In eclipse, add "conf" to the build path and remove src/test/java & src/test/resources from the build path (the test files are removed because they will try to use a different JndiInitialContext and you may get ClassNotFoundExceptions)
+
 # Licence
 
 Apache 2.0 http://www.apache.org/licenses/LICENSE-2.0.txt

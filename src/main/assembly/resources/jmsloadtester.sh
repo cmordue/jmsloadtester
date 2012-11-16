@@ -32,6 +32,11 @@
 # OPENMQ_LIBS=/media/hda2/backup/projects/_private/JMSLoadTester/lib/openmq/
 # OPENMQ_CLASSPATH="$OPENMQ_LIBS"/fscontext.jar;"$OPENMQ_LIBS"/jms.jar;"$OPENMQ_LIBS"/ims.jar;
 
+#ACTIVEMQ_LIBS=/Users/chrismordue/.m2/repository/org/apache/activemq/
+#ACTIVEMQ_CLASSPATH="$ACTIVEMQ_LIBS"activemq-all/5.5.1/activemq-all-5.5.1.jar;
+#/Users/chrismordue/.m2/repository/org/slf4j/slf4j-log4j12/1.6.1/slf4j-log4j12-1.6.1.jar;
+#"$ACTIVEMQ_LIBS"/activemq-core/5.5.1/activemq-core-5.5.1.jar;
+
 # YOUR_CP needs to point to the classpath you just setup
 # e.g.
 # YOUR_CP="$HORNET_CLASSPATH"
@@ -43,6 +48,7 @@
 # YOUR_CP="$WEBLOGIC_CLASSPATH"
 # or
 # YOUR_CP="$OPENMQ_CLASSPATH"
+#YOUR_CP="$ACTIVEMQ_CLASSPATH"
 
 # **************************************************************************
 #
