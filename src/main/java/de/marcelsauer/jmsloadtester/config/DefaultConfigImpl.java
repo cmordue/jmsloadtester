@@ -141,8 +141,8 @@ public class DefaultConfigImpl implements Config {
             timeToLive = parseLong(TIME_TO_LIVE);
 
             connectionFactory = parseString(CONNECTION_FACTORY);
-            connectionFactoryUsername = parseString(CONNECTION_FACTORY_USERNAME);
-            connectionFactoryPassword = parseString(CONNECTION_FACTORY_PASSWORD);
+            connectionFactoryUsername = getStringValue(properties.get(CONNECTION_FACTORY_USERNAME));
+            connectionFactoryPassword = getStringValue(properties.get(CONNECTION_FACTORY_PASSWORD));
             listenToDestination = parseString(LISTEN_TO_DEST);
             sendToDestination = parseString(SEND_TO_DEST);
             messageContentStrategy = parseString(MESSAGE_CONTENT_STRATEGY);
