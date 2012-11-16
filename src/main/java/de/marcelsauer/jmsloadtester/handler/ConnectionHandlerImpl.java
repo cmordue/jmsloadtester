@@ -29,7 +29,7 @@ import javax.jms.JMSException;
 
 public class ConnectionHandlerImpl implements ConnectionHandler, ShutdownAware {
 
-    private static Connection con;
+    private Connection con;
     private ConnectionFactory connectionFactory;
 
     private ConnectionHandlerImpl() {
