@@ -82,9 +82,12 @@ public class Main {
 
         try {
             // start of subscribers
+        	long listenerRampupSleep = config.getListenerRampup();
             for (int i = 1, count = config.getSubscribersToStart(); i <= count; i++) {
                 threadTracker.createListenerThread("Listener Thread " + i);
-                Thread.sleep(config.getListenerRampup());
+                if (listenerRampupSleep > 0) {
+                	Thread.sleep(listenerRampupSleep);
+                }
             }
 
             // TODO how much sleep?
@@ -93,15 +96,21 @@ public class Main {
             }
 
             // start of publishers
+            long senderRampupSleep = config.getSenderRampup();
             for (int i = 1, count = config.getSendersToStart(); i <= count; i++) {
                 threadTracker.createSenderThread("Sender Thread " + i);
-                Thread.sleep(config.getSenderRampup());
+                if (senderRampupSleep > 0) {
+                	Thread.sleep(senderRampupSleep);
+                }
             }
 
             // loop until all is done
+            long progressSleep = getSleepCount();
             while (!(messageTracker.isAllReceived() && messageTracker.isAllSent())) {
                 printProgress();
-                Thread.sleep(getSleepCount());
+                if (progressSleep > 0) {
+                	Thread.sleep(progressSleep);
+                }
                 Thread.yield();
             }
 
