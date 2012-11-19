@@ -24,18 +24,17 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 public class FolderMessageContentStrategy implements MessageContentStrategy {
 
-    private static Map<String, Payload> cache = new HashMap<String, Payload>();
+    private static HashMap<String, Payload> cache = new HashMap<String, Payload>();
     private String directory;
     private String regex;
     private File[] files;
-    private int counter;
+    private volatile int counter;
 
-    private int amount;
-    private int amountCounter;
+    private volatile int amount;
+    private volatile int amountCounter;
 
     public FolderMessageContentStrategy(final String directory, final String regex, final int amount) {
         this.directory = directory;
@@ -99,11 +98,11 @@ public class FolderMessageContentStrategy implements MessageContentStrategy {
         }
     }
 
-    private synchronized Payload getCached(final String filename) {
+    private Payload getCached(final String filename) {
         return cache.get(filename);
     }
 
-    private synchronized void putCached(final String filename, final Payload content) {
+    private void putCached(final String filename, final Payload content) {
         cache.put(filename, content);
     }
 
@@ -112,6 +111,10 @@ public class FolderMessageContentStrategy implements MessageContentStrategy {
         files = dir.listFiles(new RegexFilter());
         if (files == null) {
             throw new NullPointerException("the provided message directory doesn't seem to exist. try to use the full pathname.");
+        }
+        for (File f : files) {
+            Payload p = new Payload(FileUtils.getBytesFromFile(f));
+            putCached(f.getName(), p);
         }
     }
 
