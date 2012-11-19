@@ -54,6 +54,7 @@ public class DefaultConfigImpl implements Config {
     private static final String SENDER_RAMPUP = APP_PREFIX + "sender.ramp.up.millis";
     private static final String MESSAGE_INTERCEPTORS = APP_PREFIX + "message.interceptors";
     private static final String LISTENER_ACK_MESSAGE = APP_PREFIX + "listener.explicit.acknowledge.message";
+    private static final String SENDER_WAIT_FOR_RESPONSE = APP_PREFIX + "sender.wait.for.response";
 
     // connection factory
     private static final String CONNECTION_FACTORY = "javax.jms.ConnectionFactory";
@@ -80,6 +81,7 @@ public class DefaultConfigImpl implements Config {
 
     private boolean createJndiDestinationIfNotFound;
     private boolean listenerExplicitAckMessage;
+    private boolean isSenderWaitForResponse;
 
     private String connectionFactory;
     private String connectionFactoryUsername;
@@ -162,6 +164,8 @@ public class DefaultConfigImpl implements Config {
             messageOutputStrategy = OutputStrategyFactory.getOutputStrategy(parseString(MESSAGE_OUT_STRATEGY));
 
             parseInterceptors(getStringValue(properties.get(MESSAGE_INTERCEPTORS)));
+            
+            isSenderWaitForResponse = parseBoolean(SENDER_WAIT_FOR_RESPONSE);
 
         } catch (IllegalStateException e) {
             Logger.error("the configuration file seems to be incorrect", e);
@@ -359,4 +363,9 @@ public class DefaultConfigImpl implements Config {
     public String getConnectionPassword() {
         return connectionFactoryPassword;
     }
+
+	@Override
+	public boolean isSenderWaitForResponse() {
+		return isSenderWaitForResponse;
+	}
 }

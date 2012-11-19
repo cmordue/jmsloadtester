@@ -15,6 +15,7 @@
  */
 package de.marcelsauer.jmsloadtester.tracker;
 
+import de.marcelsauer.jmsloadtester.client.BoboSenderTrafficCop;
 import de.marcelsauer.jmsloadtester.client.Listener;
 import de.marcelsauer.jmsloadtester.client.Sender;
 import de.marcelsauer.jmsloadtester.config.Config;
@@ -31,9 +32,13 @@ public class ThreadTrackerImpl implements ThreadTracker {
     private MessageTracker messageTracker;
     private MessageParser messageParser;
     private Config config;
+    private MessageLoadTracker loadTracker;
+    private BoboSenderTrafficCop boboTrafficCop;
 
     public ThreadTrackerImpl(Config config) {
         this.config = config;
+    	loadTracker = new MessageLoadTracker(config.getSendersToStart());
+    	boboTrafficCop = new BoboSenderTrafficCop();
     }
 
     private MessageContentStrategy getMessageContentStrategy() {
@@ -49,6 +54,9 @@ public class ThreadTrackerImpl implements ThreadTracker {
         final Listener listener = new Listener();
         listener.setListenToDestination(config.getListenToDestination());
         listener.addMessageNotifyable(messageTracker);
+        if (config.isSenderWaitForResponse()) {
+        	listener.addMessageNotifyable(loadTracker);
+        }
         listener.setMessageOutStrategy(config.getMessageOutputStrategy());
         listener.setMessageParser(messageParser);
         listener.setExplicitAckMessage(config.isExplicitAcknowledgeMessage());
@@ -62,9 +70,17 @@ public class ThreadTrackerImpl implements ThreadTracker {
     @Override
     public void createSenderThread(final String name) {
         final Sender sender = new Sender();
+        if (config.isSenderWaitForResponse()) {
+        	sender.setTrafficCop(loadTracker);
+        } else {
+        	sender.setTrafficCop(boboTrafficCop);
+        }
         sender.setDestination(config.getSendToDestination());
         sender.setSleepMilliseconds(config.getPubSleepMillis());
         sender.addMessageSentAware(messageTracker);
+        if (config.isSenderWaitForResponse()) {
+        	sender.addMessageSentAware(loadTracker);
+        }
         sender.setMessageContentStrategy(getMessageContentStrategy());
         sender.setMessageInterceptors(config.getMessageInterceptors());
 

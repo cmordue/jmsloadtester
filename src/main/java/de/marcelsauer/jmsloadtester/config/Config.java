@@ -76,5 +76,7 @@ public interface Config {
     int getPriority();
 
     long getTimeToLive();
+    
+    boolean isSenderWaitForResponse();
 
 }

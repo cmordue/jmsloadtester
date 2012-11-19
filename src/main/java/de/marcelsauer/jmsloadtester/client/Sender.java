@@ -39,7 +39,8 @@ public class Sender extends JmsClient implements MessageInterceptor {
     private MessageContentStrategy messageContentStrategy;
     private List<MessageSentAware> messageSentAware = new ArrayList<MessageSentAware>();
     private List<MessageInterceptor> messageInterceptors = new ArrayList<MessageInterceptor>();
-
+    private SenderTrafficCop trafficCop;
+    
     public void run() {
         final MessageHandler messageHandler = getMessageHandler();
         messageHandler.addMessageInterceptors(getMessageInterceptors());
@@ -48,6 +49,7 @@ public class Sender extends JmsClient implements MessageInterceptor {
         try {
             MessageContentStrategy messages = getMessageContentStrategy();
             for (Payload message : messages) {
+            	trafficCop.waitUntilSendable();
                 Logger.debug("sending message: " + message);
                 messageHandler.sendMessage(message, getDestination());
                 messagesSent++;
@@ -105,5 +107,9 @@ public class Sender extends JmsClient implements MessageInterceptor {
 
     public void setMessageInterceptors(List<MessageInterceptor> messageInterceptors) {
         this.messageInterceptors = messageInterceptors;
+    }
+    
+    public void setTrafficCop(SenderTrafficCop trafficCop) {
+    	this.trafficCop = trafficCop;
     }
 }
