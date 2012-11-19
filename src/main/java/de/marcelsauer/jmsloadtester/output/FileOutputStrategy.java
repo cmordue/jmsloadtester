@@ -76,4 +76,9 @@ public class FileOutputStrategy implements OutputStrategy, ShutdownAware {
         }
     }
 
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
 }

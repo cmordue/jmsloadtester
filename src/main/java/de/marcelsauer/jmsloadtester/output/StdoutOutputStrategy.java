@@ -26,4 +26,9 @@ public class StdoutOutputStrategy implements OutputStrategy {
         return "Standard Out (STDOUT)";
     }
 
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
 }

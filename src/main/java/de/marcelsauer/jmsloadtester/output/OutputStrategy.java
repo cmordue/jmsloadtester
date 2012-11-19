@@ -17,4 +17,5 @@ package de.marcelsauer.jmsloadtester.output;
 
 public interface OutputStrategy {
     void output(String line);
+    boolean isEnabled();
 }

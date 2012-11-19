@@ -26,4 +26,9 @@ public class SilentOutputStrategy implements OutputStrategy {
         return "Silent, printing nothing";
     }
 
+	@Override
+	public boolean isEnabled() {
+		return false;
+	}
+
 }

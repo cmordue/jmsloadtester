@@ -72,7 +72,10 @@ public class Listener extends JmsClient {
     }
 
     private void printMessageDetails(final Message message) {
-        getMessageOutStrategy().output(getMessageDetails(message));
+        OutputStrategy os = getMessageOutStrategy();
+        if (os.isEnabled()) {
+        	os.output(getMessageDetails(message));
+        }
     }
 
     private void messageReceived(final Message message) {

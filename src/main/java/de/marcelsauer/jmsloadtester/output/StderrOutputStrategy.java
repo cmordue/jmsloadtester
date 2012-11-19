@@ -26,4 +26,9 @@ public class StderrOutputStrategy implements OutputStrategy {
         return "Standard Error (STDERR)";
     }
 
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
 }
