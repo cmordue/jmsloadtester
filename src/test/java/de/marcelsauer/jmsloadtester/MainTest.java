@@ -69,5 +69,10 @@ public class MainTest extends TestCase {
                 uniqMessagesReceived.add(line);
             }
         }
+
+		@Override
+		public boolean isEnabled() {
+			return true;
+		}
     }
 }
