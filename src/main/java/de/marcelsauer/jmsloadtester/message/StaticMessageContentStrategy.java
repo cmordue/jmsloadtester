@@ -17,6 +17,8 @@ package de.marcelsauer.jmsloadtester.message;
 
 import java.util.Iterator;
 
+import de.marcelsauer.jmsloadtester.tools.Logger;
+
 public class StaticMessageContentStrategy implements MessageContentStrategy {
 
     private int messageCount;
@@ -26,6 +28,7 @@ public class StaticMessageContentStrategy implements MessageContentStrategy {
     public StaticMessageContentStrategy(final String message, final int messageCount) {
         this.messageCount = messageCount;
         this.message = new Payload(message);
+        Logger.info("payload size: " + message.length());
     }
 
     @Override

@@ -18,6 +18,8 @@ package de.marcelsauer.jmsloadtester.message;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import de.marcelsauer.jmsloadtester.tools.Logger;
+
 public class SizeMessageContentStrategy implements MessageContentStrategy {
 
     private int messageCount;
@@ -63,6 +65,7 @@ public class SizeMessageContentStrategy implements MessageContentStrategy {
         byte[] data = new byte[bytes];
         Arrays.fill(data, "1".getBytes()[0]);
         this.message = new Payload(data);
+        Logger.info("payload size: " + bytes);
     }
 
     @Override

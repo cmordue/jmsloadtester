@@ -115,6 +115,7 @@ public class FolderMessageContentStrategy implements MessageContentStrategy {
         for (File f : files) {
             Payload p = new Payload(FileUtils.getBytesFromFile(f));
             putCached(f.getName(), p);
+            Logger.info("payload size: " + p.asBytes().length);
         }
     }
 
