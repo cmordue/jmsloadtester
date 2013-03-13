@@ -109,22 +109,27 @@ public class MqEchoServer implements MessageListener
     }
     
     protected Message createEchoMessage(Message message) throws JMSException {
-        TextMessage response = this.session.createTextMessage();
         if (message instanceof TextMessage) {
             TextMessage txtMsg = (TextMessage) message;
             String messageText = txtMsg.getText();
             
+            TextMessage response = this.session.createTextMessage();
             response.setText(messageText);
+            return response;
         } else if (message instanceof MapMessage) {
             MapMessage mapMessage = (MapMessage) message;
+            MapMessage response = this.session.createMapMessage();
             Enumeration<?> names = mapMessage.getMapNames();
             while (names.hasMoreElements()) {
-                Object name = names.nextElement();
-                System.out.println(name.toString() + ": " + mapMessage.getObject(name.toString()));
+                String name = names.nextElement().toString();
+                Object obj = mapMessage.getObject(name);
+                System.out.println(name + ": " + obj);
+                response.setObject(name, obj);
             }
+            return response;
+        } else {
+            return this.session.createTextMessage();
         }
-            
-        return response;
     }
     
     public boolean isStarted() {
