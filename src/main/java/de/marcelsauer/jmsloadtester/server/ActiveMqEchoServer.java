@@ -60,9 +60,9 @@ public class ActiveMqEchoServer extends MqEchoServer {
         super.start();
     }
     
-  protected String getMessageBrokerUrl() {
-      return messageBrokerUrl;
-  }
+    protected String getMessageBrokerUrl() {
+        return messageBrokerUrl;
+    }
 
     public static void main(String[] args) {
         ActiveMqEchoServer echoServer = new ActiveMqEchoServer();

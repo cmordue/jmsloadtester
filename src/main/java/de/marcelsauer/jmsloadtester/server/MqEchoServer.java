@@ -45,6 +45,7 @@ public class MqEchoServer implements MessageListener
     }
     
     public synchronized void start() {
+        System.out.println("Starting MqEchoServer");
         setupMessageQueueConsumer();
         isStarted = true;
     }
